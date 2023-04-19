@@ -11,6 +11,12 @@ namespace TCGame
     internal class Axe : Item
     {
         //Private
-        private Texture axeTexture = new Texture("Data/Textures/Axe.png");
+        private Sprite sprite;
+        private Texture texture;
+
+        public Axe() { 
+            texture = new Texture ("Data/Textures/Axe.png");
+            sprite = new Sprite (texture);
+        }
     }
 }

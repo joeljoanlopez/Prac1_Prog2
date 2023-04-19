@@ -11,10 +11,12 @@ namespace TCGame
     internal class Bomb : Item
     {
         //Private
-        private Texture myTexture = new Texture ("Data/Textures/Bomb.png");
+        private Sprite sprite;
+        private Texture texture;
 
         public Bomb() {
-            
+            texture = new Texture("Data/Textures/Bomb.png");
+            sprite = new Sprite(texture);
         }
     }
 }

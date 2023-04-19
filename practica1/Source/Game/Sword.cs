@@ -10,6 +10,13 @@ namespace TCGame
     internal class Sword : Item
     {
         //Private
-        private Texture myTexture = new Texture("Data/Textures/Sword.png");
+        private Sprite sprite;
+        private Texture texture;
+
+        public Sword()
+        {
+            texture = new Texture("Data/Textures/Sword.png");
+            sprite = new Sprite(texture);
+        }
     }
 }

@@ -10,6 +10,13 @@ namespace TCGame
     internal class Heart : Item
     {
         //Private
-        private Texture myTexture = new Texture("Data/Textures/Heart.png");
+        private Sprite sprite;
+        private Texture texture;
+
+        public Heart()
+        {
+            texture = new Texture("Data/Textures/Heart.png");
+            sprite = new Sprite(texture);
+        }
     }
 }

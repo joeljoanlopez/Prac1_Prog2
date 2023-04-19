@@ -10,6 +10,13 @@ namespace TCGame
     internal class Clyde : Item
     {
         //Private
-        private Texture myTexture = new Texture("Data/Textures/Clyde.png");
+        private Sprite sprite;
+        private Texture texture;
+
+        public Clyde()
+        {
+            texture = new Texture("Data/Textures/Clyde.png");
+            sprite = new Sprite(texture);
+        }
     }
 }

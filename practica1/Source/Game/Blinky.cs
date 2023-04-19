@@ -10,6 +10,13 @@ namespace TCGame
     internal class Blinky : Item
     {
         //Private
-        private Texture myTexture = new Texture("Data/Textures/Blinky.png");
+        private Sprite sprite;
+        private Texture texture;
+
+        public Blinky()
+        {
+            texture = new Texture("Data/Textures/Blinky.png");
+            sprite = new Sprite(texture);
+        }
     }
 }
