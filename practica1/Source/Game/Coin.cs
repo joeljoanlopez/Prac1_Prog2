@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SFML.Graphics;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,5 +9,7 @@ namespace TCGame
 {
     internal class Coin : Item
     {
+        //Private
+        private Texture myTexture = new Texture("Data/Textures/Coin.png");
     }
 }
