@@ -14,7 +14,7 @@ namespace TCGame
         private string _TexPath = "Data/Textures/Heart.png";
         private Sprite _Sprite;
 
-       public Heart() : base()
+       public Heart() : base("Heart")
         {
             _Texture = new Texture(_TexPath);
             _Sprite = new Sprite(_Texture);

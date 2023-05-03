@@ -14,7 +14,7 @@ namespace practica1.Source.Game
         private string _TexPath = "Data/Textures/Axe.png";
         private Sprite _Sprite;
 
-        public Axe() : base()
+        public Axe() : base("Axe")
         {
             _Texture = new Texture(_TexPath);
             _Sprite = new Sprite(_Texture);

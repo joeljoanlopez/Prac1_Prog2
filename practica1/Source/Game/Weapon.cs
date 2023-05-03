@@ -9,6 +9,9 @@ namespace practica1.Source.Game
 {
     internal class Weapon : Item
     {
+        public Weapon(string _Name) : base(_Name)
+        {
 
+        }
     }
 }

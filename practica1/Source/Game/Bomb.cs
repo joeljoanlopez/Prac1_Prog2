@@ -14,9 +14,9 @@ namespace TCGame
         private string _TexPath = "Data/Textures/Bomb.png";
         private Sprite _Sprite;
 
-        public Bomb() : base()
+        public Bomb() : base("Bomb")
         {
-            _Texture = new Texture(_TexPath);
+            _Texture = new Texture("Data/Textures/Bomb.png");
             _Sprite = new Sprite(_Texture);
             _Sprite.Origin = new Vector2f(GetLocalBounds().Width, GetLocalBounds().Height) / 2f;
         }

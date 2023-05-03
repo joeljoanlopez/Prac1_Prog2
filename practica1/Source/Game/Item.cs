@@ -7,5 +7,16 @@ namespace TCGame
     {
         private Sprite _Sprite;
         private Texture _Texture;
+        private string _Name;
+
+        public Item(string s)
+        {
+            _Name = s;
+        }
+
+        public string IsType()
+        {
+            return _Name;
+        }
     }
 }

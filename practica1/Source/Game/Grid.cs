@@ -1,12 +1,11 @@
-﻿using SFML.Graphics;
-using SFML.Window;
-using System.Collections.Generic;
+﻿using practica1.Source.Game;
+using SFML.Graphics;
 using SFML.System;
+using SFML.Window;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using practica1.Source.Game;
+using System.Reflection.Metadata;
 using TCEngine;
 
 namespace TCGame
@@ -163,12 +162,21 @@ namespace TCGame
 
             if (m_Items.Count != 0)
             {
-                m_Items.RemoveAt(m_Items.Count-1);
+                m_Items.RemoveAt(m_Items.Count - 1);
             }
         }
 
         private void NullAllCoins()
         {
+            Coin _coin = new Coin();
+            for (int i = 0; i < m_Items.Count; i++)
+            {
+                var _item = m_Items[i];
+                if (_item == _coin)
+                {
+                    m_Items[i] = null;
+                }
+            }
         }
 
         private void RemoveNullSlots()
@@ -185,7 +193,15 @@ namespace TCGame
 
         private bool HasNullSlot()
         {
-            return false;
+            bool _HasNullSlot = m_Items.Count < MaxItems;
+
+            int i = 0;
+            while (!_HasNullSlot && i < m_Items.Count)
+            {
+                if (m_Items[i] == null) _HasNullSlot = true;
+                else i++;
+            }
+            return _HasNullSlot;
         }
 
         private int GetFirstNullSlot()
@@ -200,6 +216,7 @@ namespace TCGame
         private void AddItemAtEnd(Item _item)
         {
             m_Items.Add(_item);
+            Console.WriteLine(_item.IsType());
         }
 
         private void OrderItems()
