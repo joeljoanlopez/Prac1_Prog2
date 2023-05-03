@@ -160,6 +160,11 @@ namespace TCGame
 
         private void RemoveLastItem()
         {
+
+            if (m_Items.Count != 0)
+            {
+                m_Items.RemoveAt(m_Items.Count-1);
+            }
         }
 
         private void NullAllCoins()
