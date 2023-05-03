@@ -7,7 +7,7 @@ namespace TCGame
     {
         private Sprite _Sprite;
 
-        Item()
+        public Item()
         {
             _Sprite.Origin = new Vector2f(GetLocalBounds().Width, GetLocalBounds().Height) / 2;
         }

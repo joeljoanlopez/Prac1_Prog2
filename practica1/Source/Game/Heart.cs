@@ -13,7 +13,7 @@ namespace TCGame
         private string _TexPath = "Data/Textures/Heart.png";
         private Sprite _Sprite;
 
-        Heart()
+       public Heart()
         {
             _Texture = new Texture(_TexPath);
             _Sprite = new Sprite(_Texture);

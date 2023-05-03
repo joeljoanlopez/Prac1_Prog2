@@ -5,6 +5,8 @@ using SFML.System;
 using System;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using practica1.Source.Game;
 using TCEngine;
 
 namespace TCGame
@@ -150,7 +152,10 @@ namespace TCGame
 
         private Item NewRandomItem()
         {
-            return null;
+            Item[] _randItem =
+                { new Bomb(), new Heart(), new Sword(), new Axe(), new Coin(), new Clyde(), new Blinky() };
+            Random rand = new Random();
+            return _randItem[rand.Next(_randItem.Length)];
         }
 
         private void RemoveLastItem()

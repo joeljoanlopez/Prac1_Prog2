@@ -13,7 +13,7 @@ namespace TCGame
         private string _TexPath = "Data/Textures/Bomb.png";
         private Sprite _Sprite;
 
-        Bomb()
+        public Bomb()
         {
             _Texture = new Texture(_TexPath);
             _Sprite = new Sprite(_Texture);

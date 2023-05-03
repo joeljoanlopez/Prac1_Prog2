@@ -13,7 +13,7 @@ namespace practica1.Source.Game
         private string _TexPath = "Data/Textures/Sword.png";
         private Sprite _Sprite;
 
-        Sword()
+        public Sword()
         {
             _Texture = new Texture(_TexPath);
             _Sprite = new Sprite(_Texture);

@@ -14,7 +14,7 @@ namespace practica1.Source.Game
         private string _TexPath = "Data/Textures/Coin.png";
         private Sprite _Sprite;
 
-        Coin()
+        public Coin()
         {
             _Texture = new Texture(_TexPath);
             _Sprite = new Sprite(_Texture);

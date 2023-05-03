@@ -14,7 +14,7 @@ namespace practica1.Source.Game
         private string _TexPath = "Data/Textures/Blinky.png";
         private Sprite _Sprite;
 
-        Blinky()
+        public Blinky()
         {
             _Texture = new Texture(_TexPath);
             _Sprite = new Sprite(_Texture);
