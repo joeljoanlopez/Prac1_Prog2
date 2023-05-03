@@ -1,19 +1,19 @@
-﻿using System;
+﻿using SFML.Graphics;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using SFML.Graphics;
 
 namespace TCGame
 {
-    internal class Bomb : Item
+    internal class Heart : Item
     {
         private Texture _Texture;
-        private string _TexPath = "Data/Textures/Bomb.png";
+        private string _TexPath = "Data/Textures/Heart.png";
         private Sprite _Sprite;
 
-        Bomb()
+        Heart()
         {
             _Texture = new Texture(_TexPath);
             _Sprite = new Sprite(_Texture);
