@@ -194,6 +194,7 @@ namespace TCGame
 
         private void AddItemAtEnd(Item _item)
         {
+            m_Items.Add(_item);
         }
 
         private void OrderItems()

@@ -6,11 +6,6 @@ namespace TCGame
     public abstract class Item : Sprite
     {
         private Sprite _Sprite;
-
-        public Item()
-        {
-            _Sprite.Origin = new Vector2f(GetLocalBounds().Width, GetLocalBounds().Height) / 2;
-        }
-
+        private Texture _Texture;
     }
 }

@@ -1,4 +1,5 @@
 ﻿using SFML.Graphics;
+using SFML.System;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,10 +15,11 @@ namespace practica1.Source.Game
         private string _TexPath = "Data/Textures/Coin.png";
         private Sprite _Sprite;
 
-        public Coin()
+        public Coin() : base()
         {
             _Texture = new Texture(_TexPath);
             _Sprite = new Sprite(_Texture);
+            _Sprite.Origin = new Vector2f(GetLocalBounds().Width, GetLocalBounds().Height) / 2f;
         }
     }
 }
