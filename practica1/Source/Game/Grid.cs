@@ -219,6 +219,7 @@ namespace TCGame
 
         private void AddItemAtIndex(Item _item, int _index)
         {
+            m_Items[_index] = _item;
         }
 
         private void AddItemAtEnd(Item _item)
