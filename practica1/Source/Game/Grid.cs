@@ -206,7 +206,15 @@ namespace TCGame
 
         private int GetFirstNullSlot()
         {
-            return -1;
+            bool found = false;
+            int i = 0;
+            while (!found && i < m_Items.Count)
+            {
+                if (m_Items[i] == null) found = true;
+                else i++;
+            }
+            
+            return found ? i : -1;
         }
 
         private void AddItemAtIndex(Item _item, int _index)
