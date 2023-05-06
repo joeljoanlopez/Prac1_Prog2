@@ -23,6 +23,7 @@ namespace TCGame
         private List<Item> m_Items;
         private Texture m_BackgroundTexture;
         private Sprite m_BackgroundSprite;
+        private Window _Window;
 
 
         //
@@ -46,11 +47,11 @@ namespace TCGame
         // 
         // Methods
         //
-        public void Init()
+        public void Init(Window _w)
         {
             m_BackgroundTexture = new Texture("Data/Textures/Background.jpg");
             m_BackgroundSprite = new Sprite(m_BackgroundTexture);
-
+            _Window = _w;
             m_Items = new List<Item>();
 
             FillGridLines();
@@ -102,6 +103,11 @@ namespace TCGame
             {
                 OrderItems();
             }
+            else if (Mouse.IsButtonPressed(Mouse.Button.Left))
+            {
+                Vector2f _mousePos = (Vector2f)Mouse.GetPosition(_Window);
+                DeleteObject(_mousePos);
+            }
         }
 
         private void FillGridLines()
@@ -118,7 +124,7 @@ namespace TCGame
                 m_Lines.AddLine(new Vector2f(0.0f, i * SlotHeight), new Vector2f(TecnoCampusEngine.WINDOW_WIDTH, i * SlotHeight), 2.0f, new Color(0, 0, 0, 150));
             }
         }
-
+        
         public void Update(float _dt)
         {
             for (int i = 0; i < m_Items.Count; ++i)
@@ -171,16 +177,55 @@ namespace TCGame
             Coin _coin = new Coin();
             for (int i = 0; i < m_Items.Count; i++)
             {
-                var _item = m_Items[i];
-                if (_item == _coin)
+                if (m_Items[i].IsType() == _coin.IsType())
                 {
                     m_Items[i] = null;
+                }
+            }
+
+
+            //Show list in console
+            Console.WriteLine();
+            Console.WriteLine("Items List:");
+            foreach (var _item in m_Items)
+            {
+                if (_item != null)
+                {
+
+                    Console.WriteLine(_item.IsType());
+                }
+                else
+                {
+
+                    Console.WriteLine("null");
                 }
             }
         }
 
         private void RemoveNullSlots()
         {
+            while (HasNullSlot())
+            {
+                m_Items.RemoveAt(GetFirstNullSlot());
+            }
+
+            //Show list in console
+            Console.WriteLine();
+            Console.WriteLine("Items List:");
+            foreach (var _item in m_Items)
+            {
+                if (_item != null)
+                {
+
+                    Console.WriteLine(_item.IsType());
+                }
+                else
+                {
+
+                    Console.WriteLine("null");
+                }
+            }
+
         }
 
         private void RemoveAllItems()
@@ -193,15 +238,7 @@ namespace TCGame
 
         private bool HasNullSlot()
         {
-            bool _HasNullSlot = m_Items.Count < MaxItems;
-
-            int i = 0;
-            while (!_HasNullSlot && i < m_Items.Count)
-            {
-                if (m_Items[i] == null) _HasNullSlot = true;
-                else i++;
-            }
-            return _HasNullSlot;
+            return GetFirstNullSlot() != -1;
         }
 
         private int GetFirstNullSlot()
@@ -224,8 +261,11 @@ namespace TCGame
 
         private void AddItemAtEnd(Item _item)
         {
-            m_Items.Add(_item);
-            Console.WriteLine(_item.IsType());
+            if (m_Items.Count < MaxItems)
+            {
+                m_Items.Add(_item);
+                Console.WriteLine(_item.IsType());
+            }
         }
 
         private void OrderItems()
@@ -234,6 +274,11 @@ namespace TCGame
 
         private void ReverseItems()
         {
+        }
+
+        private void DeleteObject(Vector2f _pos)
+        {
+
         }
     }
 }

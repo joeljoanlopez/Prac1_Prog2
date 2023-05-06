@@ -11,7 +11,7 @@ namespace TCGame
         {
             // Grid initialization
             m_Grid = new Grid();
-            m_Grid.Init();
+            m_Grid.Init(_window);
 
             // Key Binding
             _window.KeyPressed += m_Grid.HandleKeyPressed;
