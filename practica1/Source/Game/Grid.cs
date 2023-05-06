@@ -103,6 +103,10 @@ namespace TCGame
             {
                 OrderItems();
             }
+            else if (_keyEvent.Code == Keyboard.Key.Space)
+            {
+                ShowGrid();
+            }
         }
 
         public void OnMouseButtonPressed(object sender, MouseButtonEventArgs e)
@@ -113,9 +117,6 @@ namespace TCGame
                 DeleteObject(_mousePos);
             }
         }
-
-
-
 
         private void FillGridLines()
         {
@@ -172,11 +173,9 @@ namespace TCGame
 
         private void RemoveLastItem()
         {
+            if (m_Items.Count != 0) m_Items.RemoveAt(m_Items.Count - 1);
 
-            if (m_Items.Count != 0)
-            {
-                m_Items.RemoveAt(m_Items.Count - 1);
-            }
+            ShowGrid();
         }
 
         private void NullAllCoins()
@@ -189,49 +188,15 @@ namespace TCGame
                     m_Items[i] = null;
                 }
             }
-
-
-            //Show list in console
-            Console.WriteLine();
-            Console.WriteLine("Items List:");
-            foreach (var _item in m_Items)
-            {
-                if (_item != null)
-                {
-
-                    Console.WriteLine(_item.IsType());
-                }
-                else
-                {
-
-                    Console.WriteLine("null");
-                }
-            }
+            
+            ShowGrid();
         }
 
         private void RemoveNullSlots()
         {
-            while (HasNullSlot())
-            {
-                m_Items.RemoveAt(GetFirstNullSlot());
-            }
-
-            //Show list in console
-            Console.WriteLine();
-            Console.WriteLine("Items List:");
-            foreach (var _item in m_Items)
-            {
-                if (_item != null)
-                {
-
-                    Console.WriteLine(_item.IsType());
-                }
-                else
-                {
-
-                    Console.WriteLine("null");
-                }
-            }
+            while (HasNullSlot()) m_Items.RemoveAt(GetFirstNullSlot());
+            
+            ShowGrid();
 
         }
 
@@ -264,15 +229,15 @@ namespace TCGame
         private void AddItemAtIndex(Item _item, int _index)
         {
             m_Items[_index] = _item;
+
+            ShowGrid();
         }
 
         private void AddItemAtEnd(Item _item)
         {
-            if (m_Items.Count < MaxItems)
-            {
-                m_Items.Add(_item);
-                Console.WriteLine(_item.IsType());
-            }
+            if (m_Items.Count < MaxItems) m_Items.Add(_item);
+
+            ShowGrid();
         }
 
         private void OrderItems()
@@ -285,12 +250,39 @@ namespace TCGame
 
         private void DeleteObject(Vector2f _mousePos)
         {
-            Vector2i _coords = GetGridCoords(_mousePos);
-            int _ListPos = _coords.X + _coords.Y * NUM_COLUMNS;
+            Vector2i _coords = GetGridPos(_mousePos);
+            int _ListPos = GridToList(_coords);
+
+            Bomb _bomb = new Bomb();
+            if (m_Items[_ListPos] != null && m_Items[_ListPos].IsType() == _bomb.IsType())
+            {
+                BombExplode(_coords);
+            }
             m_Items[_ListPos] = null;
+            
+            ShowGrid();
         }
 
-        private Vector2i GetGridCoords(Vector2f _pos)
+        private void BombExplode(Vector2i _pos)
+        {
+            //Set Bomb Coords
+            int _col = _pos.X;
+            int _row = _pos.Y;
+
+            //Get other Coords
+            int _right = GridToList(new Vector2i(_col + 1, _row));
+            int _left = GridToList(new Vector2i(_col - 1, _row));
+            int _down = GridToList(new Vector2i(_col, _row + 1));
+            int _up = GridToList(new Vector2i(_col, _row - 1));
+
+            //Delete coords
+            if (ExistsPos(_right)) m_Items[_right] = null;
+            if (ExistsPos(_left)) m_Items[_left] = null;
+            if (ExistsPos(_down)) m_Items[_down] = null;
+            if (ExistsPos(_up)) m_Items[_up] = null;
+        }
+
+        private Vector2i GetGridPos(Vector2f _pos)
         {
             int _rowNum = -1;
             int _colNum = -1;
@@ -313,7 +305,46 @@ namespace TCGame
             Console.WriteLine("X coord : {0}", _colNum);
             Console.WriteLine("Y coord : {0}", _rowNum);
 
-            return new Vector2i(_colNum, _rowNum);
+            return new Vector2i (_colNum, _rowNum);
+        }
+
+        private int GridToList(Vector2i _pos)
+        {
+            return _pos.X + _pos.Y * NUM_COLUMNS;
+        }
+
+        private bool ExistsPos(int _pos)
+        {
+            return _pos >= 0 && _pos < m_Items.Count;
+        }
+
+        private void ShowGrid()
+        {
+            Console.Clear();
+            Console.WriteLine("Items List:");
+            for (int i = 0; i < NUM_ROWS; i++)
+            {
+                for (int j = 0; j < NUM_COLUMNS; j++)
+                {
+                    int _pos = GridToList(new Vector2i(j, i));
+                    Item _item = null;
+                    if (ExistsPos(_pos))
+                    {
+                        _item = m_Items[_pos];
+                    }
+                    if (_item != null)
+                    {
+                        Console.Write(_item.IsType());
+                        Console.Write("\t");
+                    }
+                    else
+                    {
+                        Console.Write("null \t");
+                    }
+                    
+                }
+                Console.Write("\n");
+            }
         }
 
     }
