@@ -15,6 +15,7 @@ namespace TCGame
 
             // Key Binding
             _window.KeyPressed += m_Grid.HandleKeyPressed;
+            _window.MouseButtonPressed += m_Grid.OnMouseButtonPressed;
         }
 
         public void DeInit()

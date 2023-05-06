@@ -103,12 +103,19 @@ namespace TCGame
             {
                 OrderItems();
             }
-            else if (Mouse.IsButtonPressed(Mouse.Button.Left))
+        }
+
+        public void OnMouseButtonPressed(object sender, MouseButtonEventArgs e)
+        {
+            if (e.Button == Mouse.Button.Left)
             {
                 Vector2f _mousePos = (Vector2f)Mouse.GetPosition(_Window);
                 DeleteObject(_mousePos);
             }
         }
+
+
+
 
         private void FillGridLines()
         {
@@ -124,7 +131,7 @@ namespace TCGame
                 m_Lines.AddLine(new Vector2f(0.0f, i * SlotHeight), new Vector2f(TecnoCampusEngine.WINDOW_WIDTH, i * SlotHeight), 2.0f, new Color(0, 0, 0, 150));
             }
         }
-        
+
         public void Update(float _dt)
         {
             for (int i = 0; i < m_Items.Count; ++i)
@@ -177,7 +184,7 @@ namespace TCGame
             Coin _coin = new Coin();
             for (int i = 0; i < m_Items.Count; i++)
             {
-                if (m_Items[i].IsType() == _coin.IsType())
+                if (m_Items[i] != null && m_Items[i].IsType() == _coin.IsType())
                 {
                     m_Items[i] = null;
                 }
@@ -250,7 +257,7 @@ namespace TCGame
                 if (m_Items[i] == null) found = true;
                 else i++;
             }
-            
+
             return found ? i : -1;
         }
 
@@ -276,9 +283,38 @@ namespace TCGame
         {
         }
 
-        private void DeleteObject(Vector2f _pos)
+        private void DeleteObject(Vector2f _mousePos)
         {
-
+            Vector2i _coords = GetGridCoords(_mousePos);
+            int _ListPos = _coords.X + _coords.Y * NUM_COLUMNS;
+            m_Items[_ListPos] = null;
         }
+
+        private Vector2i GetGridCoords(Vector2f _pos)
+        {
+            int _rowNum = -1;
+            int _colNum = -1;
+            int i = 0;
+
+            while (i < NUM_COLUMNS && _colNum == -1)
+            {
+                if (_pos.X > SlotWidth * i && _pos.X < SlotWidth * (i + 1)) _colNum = i;
+                else i++;
+            }
+
+            i = 0;
+            while (i < NUM_ROWS && _rowNum == -1)
+            {
+                if (_pos.Y > SlotHeight * i && _pos.Y < SlotHeight * (i + 1)) _rowNum = i;
+                else i++;
+            }
+
+            //Show grid position
+            Console.WriteLine("X coord : {0}", _colNum);
+            Console.WriteLine("Y coord : {0}", _rowNum);
+
+            return new Vector2i(_colNum, _rowNum);
+        }
+
     }
 }
