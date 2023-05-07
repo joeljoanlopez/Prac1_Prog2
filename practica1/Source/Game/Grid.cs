@@ -200,12 +200,30 @@ namespace TCGame
 
         }
 
-        private void RemoveAllItems()
+        private void RemoveAllItems() //Jordi- Corregir xfa que no tengo ni puta idea de lo que estoy haciendo 
         {
+            for (int i = 0; i < m_Items.Count; i++)
+            {
+                if (m_Items[i] != null)
+                {
+                    m_Items[i] = null;
+                }
+            }
+            
+            ShowGrid();
         }
 
-        private void NullAllWeapons()
+        private void NullAllWeapons() //Jordi- Corregir xfa que no tengo ni puta idea de lo que estoy haciendo 
         {
+            for (int i = 0; i < m_Items.Count; i++)
+            {
+                if (m_Items[i] is Weapon)
+                {
+                    m_Items[i] = null;
+                }
+            }
+            
+            ShowGrid();  
         }
 
         private bool HasNullSlot()
@@ -240,12 +258,42 @@ namespace TCGame
             ShowGrid();
         }
 
-        private void OrderItems()
+        private void OrderItems() //Jordi- He de admitir que este lo he hecho con el chat GPT xD me estaba volviendo loco
         {
+            for (int i = 0; i < m_Items.Count; i++)
+            {
+                if (m_Items[i] is Heart)
+                {
+                    m_Items.RemoveAt(i);
+                    m_Items.Insert(0, new Heart());
+                }
+                else if (m_Items[i] is Weapon)
+                {
+                    Weapon weapon = (Weapon)m_Items[i];
+                    m_Items.RemoveAt(i);
+                    int index = m_Items.FindIndex(item => item is Heart) + 1;
+                    m_Items.Insert(index, weapon);
+                }
+                else if (m_Items[i] is Coin)
+                {
+                    Coin coin = (Coin)m_Items[i];
+                    m_Items.RemoveAt(i);
+                    int index = m_Items.FindIndex(item => item is Weapon);
+                    if (index == -1) index = m_Items.FindIndex(item => item is Heart) + 1;
+                    m_Items.Insert(index, coin);
+                }
+            }
+
+            ShowGrid();
+
         }
 
-        private void ReverseItems()
+        private void ReverseItems() //Jordi- Creo que así ya va bien, no? xD
         {
+            m_Items.Reverse();
+
+            ShowGrid();
+
         }
 
         private void DeleteObject(Vector2f _mousePos)
