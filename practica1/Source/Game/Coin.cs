@@ -11,15 +11,12 @@ namespace practica1.Source.Game
 {
     internal class Coin : Item
     {
-        private Texture _Texture;
         private string _TexPath = "Data/Textures/Coin.png";
-        private Sprite _Sprite;
 
-        public Coin() : base("Coin")
+        public Coin()
         {
-            _Texture = new Texture(_TexPath);
-            _Sprite = new Sprite(_Texture);
-            _Sprite.Origin = new Vector2f(GetLocalBounds().Width, GetLocalBounds().Height) / 2f;
+            Texture = new Texture(_TexPath);
+            Origin = new Vector2f(GetLocalBounds().Width, GetLocalBounds().Height) / 2f;
         }
     }
 }

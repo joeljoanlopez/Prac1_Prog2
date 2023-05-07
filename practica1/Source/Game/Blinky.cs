@@ -11,15 +11,12 @@ namespace practica1.Source.Game
 {
     internal class Blinky : Item
     {
-        private Texture _Texture;
         private string _TexPath = "Data/Textures/Blinky.png";
-        private Sprite _Sprite;
 
-        public Blinky(): base("Blinky")
+        public Blinky()
         {
-            _Texture = new Texture(_TexPath);
-            _Sprite = new Sprite(_Texture);
-            _Sprite.Origin = new Vector2f(GetLocalBounds().Width, GetLocalBounds().Height) / 2f;
+            Texture = new Texture(_TexPath);
+            Origin = new Vector2f(GetLocalBounds().Width, GetLocalBounds().Height) / 2f;
         }
     }
 }

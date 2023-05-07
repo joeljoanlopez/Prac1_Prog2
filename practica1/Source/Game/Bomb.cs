@@ -10,15 +10,12 @@ namespace TCGame
 {
     internal class Bomb : Item
     {
-        private Texture _Texture;
         private string _TexPath = "Data/Textures/Bomb.png";
-        private Sprite _Sprite;
 
-        public Bomb() : base("Bomb")
+        public Bomb()
         {
-            _Texture = new Texture("Data/Textures/Bomb.png");
-            _Sprite = new Sprite(_Texture);
-            _Sprite.Origin = new Vector2f(GetLocalBounds().Width, GetLocalBounds().Height) / 2f;
+            Texture = new Texture("Data/Textures/Bomb.png");
+            Origin = new Vector2f(GetLocalBounds().Width, GetLocalBounds().Height) / 2f;
         }
     }
 }

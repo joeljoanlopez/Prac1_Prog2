@@ -9,14 +9,9 @@ namespace TCGame
         private Texture _Texture;
         private string _Name;
 
-        public Item(string s)
+        public Item()
         {
-            _Name = s;
-        }
-
-        public string IsType()
-        {
-            return _Name;
+            
         }
     }
 }

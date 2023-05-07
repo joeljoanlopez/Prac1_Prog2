@@ -103,10 +103,6 @@ namespace TCGame
             {
                 OrderItems();
             }
-            else if (_keyEvent.Code == Keyboard.Key.Space)
-            {
-                ShowGrid();
-            }
         }
 
         public void OnMouseButtonPressed(object sender, MouseButtonEventArgs e)
@@ -174,8 +170,6 @@ namespace TCGame
         private void RemoveLastItem()
         {
             if (m_Items.Count != 0) m_Items.RemoveAt(m_Items.Count - 1);
-
-            ShowGrid();
         }
 
         private void NullAllCoins()
@@ -183,47 +177,34 @@ namespace TCGame
             Coin _coin = new Coin();
             for (int i = 0; i < m_Items.Count; i++)
             {
-                if (m_Items[i] != null && m_Items[i].IsType() == _coin.IsType())
+                if (m_Items[i] != null && m_Items[i] is Coin)
                 {
                     m_Items[i] = null;
                 }
             }
-            
-            ShowGrid();
         }
 
         private void RemoveNullSlots()
         {
             while (HasNullSlot()) m_Items.RemoveAt(GetFirstNullSlot());
-            
-            ShowGrid();
 
         }
 
-        private void RemoveAllItems() //Jordi- Corregir xfa que no tengo ni puta idea de lo que estoy haciendo 
+        private void RemoveAllItems()
         {
-            for (int i = 0; i < m_Items.Count; i++)
-            {
-                if (m_Items[i] != null)
-                {
-                    m_Items[i] = null;
-                }
-            }
-            
-            ShowGrid();
+            m_Items.Clear();
         }
 
-        private void NullAllWeapons() //Jordi- Corregir xfa que no tengo ni puta idea de lo que estoy haciendo 
+        private void NullAllWeapons()
         {
+            Weapon _weapon = new Weapon();
             for (int i = 0; i < m_Items.Count; i++)
             {
-                if (m_Items[i] is Weapon)
+                if (m_Items[i] != null && m_Items[i] is Weapon)
                 {
                     m_Items[i] = null;
                 }
-            }
-            
-            ShowGrid();  
+            }  
         }
 
         private bool HasNullSlot()
@@ -247,53 +228,46 @@ namespace TCGame
         private void AddItemAtIndex(Item _item, int _index)
         {
             m_Items[_index] = _item;
-
-            ShowGrid();
         }
 
         private void AddItemAtEnd(Item _item)
         {
             if (m_Items.Count < MaxItems) m_Items.Add(_item);
-
-            ShowGrid();
+            
         }
 
-        private void OrderItems() //Jordi- He de admitir que este lo he hecho con el chat GPT xD me estaba volviendo loco
+        private void OrderItems()
         {
-            for (int i = 0; i < m_Items.Count; i++)
+            List<Item> aux;
+            aux = new List<Item>();
+
+            foreach (var _item in m_Items)
             {
-                if (m_Items[i] is Heart)
-                {
-                    m_Items.RemoveAt(i);
-                    m_Items.Insert(0, new Heart());
-                }
-                else if (m_Items[i] is Weapon)
-                {
-                    Weapon weapon = (Weapon)m_Items[i];
-                    m_Items.RemoveAt(i);
-                    int index = m_Items.FindIndex(item => item is Heart) + 1;
-                    m_Items.Insert(index, weapon);
-                }
-                else if (m_Items[i] is Coin)
-                {
-                    Coin coin = (Coin)m_Items[i];
-                    m_Items.RemoveAt(i);
-                    int index = m_Items.FindIndex(item => item is Weapon);
-                    if (index == -1) index = m_Items.FindIndex(item => item is Heart) + 1;
-                    m_Items.Insert(index, coin);
-                }
+                if (_item is Heart) aux.Add(_item);
+            }
+            foreach (var _item in m_Items)
+            {
+                if (_item is Weapon) aux.Add(_item);
+            }
+            foreach (var _item in m_Items)
+            {
+                if (_item is Bomb) aux.Add(_item);
+            }
+            foreach (var _item in m_Items)
+            {
+                if (_item is Coin) aux.Add(_item);
+            }
+            foreach (var _item in m_Items)
+            {
+                if (_item is not Heart && _item is not Weapon && _item is not Bomb && _item is not Coin) aux.Add(_item);
             }
 
-            ShowGrid();
-
+            m_Items = aux;
         }
 
-        private void ReverseItems() //Jordi- Creo que así ya va bien, no? xD
+        private void ReverseItems()
         {
             m_Items.Reverse();
-
-            ShowGrid();
-
         }
 
         private void DeleteObject(Vector2f _mousePos)
@@ -302,13 +276,12 @@ namespace TCGame
             int _ListPos = GridToList(_coords);
 
             Bomb _bomb = new Bomb();
-            if (m_Items[_ListPos] != null && m_Items[_ListPos].IsType() == _bomb.IsType())
+            if (m_Items[_ListPos] != null && m_Items[_ListPos] is Bomb)
             {
                 BombExplode(_coords);
             }
             m_Items[_ListPos] = null;
             
-            ShowGrid();
         }
 
         private void BombExplode(Vector2i _pos)
@@ -348,11 +321,7 @@ namespace TCGame
                 if (_pos.Y > SlotHeight * i && _pos.Y < SlotHeight * (i + 1)) _rowNum = i;
                 else i++;
             }
-
-            //Show grid position
-            Console.WriteLine("X coord : {0}", _colNum);
-            Console.WriteLine("Y coord : {0}", _rowNum);
-
+            
             return new Vector2i (_colNum, _rowNum);
         }
 
@@ -365,35 +334,5 @@ namespace TCGame
         {
             return _pos >= 0 && _pos < m_Items.Count;
         }
-
-        private void ShowGrid()
-        {
-            Console.Clear();
-            Console.WriteLine("Items List:");
-            for (int i = 0; i < NUM_ROWS; i++)
-            {
-                for (int j = 0; j < NUM_COLUMNS; j++)
-                {
-                    int _pos = GridToList(new Vector2i(j, i));
-                    Item _item = null;
-                    if (ExistsPos(_pos))
-                    {
-                        _item = m_Items[_pos];
-                    }
-                    if (_item != null)
-                    {
-                        Console.Write(_item.IsType());
-                        Console.Write("\t");
-                    }
-                    else
-                    {
-                        Console.Write("null \t");
-                    }
-                    
-                }
-                Console.Write("\n");
-            }
-        }
-
     }
 }
